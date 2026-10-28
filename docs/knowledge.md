@@ -102,7 +102,7 @@ Public copy for the weekly video run. Source of truth for anyone (human or Claud
 - "Nothing leaves your device". Note text is stored on Cramrade's servers (Supabase) and sent to AI providers: Google Gemini, OpenAI, Microsoft Azure for lectures.
 
 **Pricing and results**
-- Prices, "free forever", or Pro tiers. No pricing is built yet. Founder's planned direction is Free / Pro (~$6.99/mo) / Max, undecided in code.
+- Prices, "free forever", or Pro tiers. No pricing is built yet.
 - Results like "students improve grades by X%". There's no test data yet.
 - "First" or "only" claims about competitors (see the competitor research docs).
 
@@ -156,5 +156,4 @@ The rule is "nothing else is colored", so keep videos to blue + amber + ink/pape
 - Quiz join links and codes, where guests need no account. This is the main free growth loop.
 - Friend invites by link or QR code.
 - Calendar subscribe link.
-- A demo login exists, useful for showing judges or creators.
 - **Missing:** no analytics, waitlist, referral tracking or feedback widget. So we can't yet measure which video brought a signup. Worth adding simple UTM links plus a "how did you hear about us" question.
