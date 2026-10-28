@@ -1,0 +1,18 @@
+{
+  "week": "2026-W44",
+  "items": [
+    {
+      "date": "2026-10-28",
+      "time": "19:00",
+      "kind": "fact",
+      "video": "videos/2026-W44/01-forgetting-curve.mp4",
+      "script": "scripts/2026-W44/01-forgetting-curve.json",
+      "caption": "Ebbinghaus's forgetting curve: a day after learning something, only about a third was left. Each review resets the curve, and reviews spaced closer as the exam gets near make it stick.\n\nCramrade plans those reviews backwards from your exam date and quizzes you only from your own notes. Beta, for students 18+. Comment PLAN and I'll send you the link.",
+      "hashtags": ["#studytips", "#examprep", "#studentlife", "#spacedrepetition"],
+      "tiktok_title": "Why you forget what you studied yesterday",
+      "youtube_title": "Why you forget what you studied yesterday #Shorts",
+      "sources": ["https://en.wikipedia.org/wiki/Forgetting_curve", "https://doi.org/10.1371/journal.pone.0120644"],
+      "status": "ready"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "plan-card": {
+    "file": "plan-card.png",
+    "shows": "Homepage plan card: today's Biology session (5 questions), a question with its source quote 'From your notes, line 14', and the 3D study calendar ending on an amber Exam day block.",
+    "highlight": [
+      52,
+      328,
+      452,
+      372
+    ],
+    "highlight_shows": "the 'From your notes, line 14' source line",
+    "source_url": "https://cramrade.app/",
+    "live": {
+      "url": "https://cramrade.app/",
+      "anchor": "From your notes, line 14",
+      "dx": 34,
+      "dy": 196,
+      "w": 540,
+      "h": 420
+    }
+  },
+  "quote-check": {
+    "file": "quote-check.png",
+    "shows": "Homepage 'What makes it different' card: 'Quote found in your notes, page 2. Kept.' and 'Quote not in your notes. Dropped.'",
+    "highlight": [
+      30,
+      100,
+      600,
+      140
+    ],
+    "highlight_shows": "the 'Dropped' line",
+    "source_url": "https://cramrade.app/",
+    "live": {
+      "url": "https://cramrade.app/",
+      "anchor": "Quote not in your notes",
+      "dx": 38,
+      "dy": 63,
+      "w": 450,
+      "h": 90
+    }
+  },
+  "podium": {
+    "file": "podium.png",
+    "shows": "End-of-quiz podium (sample data): 1st 980 points, 2nd 760, 3rd 540, '7 correct of 10'.",
+    "highlight": [
+      295,
+      100,
+      540,
+      275
+    ],
+    "highlight_shows": "the winner's block",
+    "source_url": "https://cramrade.app/pieces",
+    "live": {
+      "url": "https://cramrade.app/pieces",
+      "anchor": "correct of 10",
+      "dx": 171,
+      "dy": 186,
+      "w": 485,
+      "h": 200
+    }
+  }
+}

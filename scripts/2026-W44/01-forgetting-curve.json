@@ -1,0 +1,15 @@
+{
+  "id": "2026-W44-01",
+  "seed": 0,
+  "scenes": [
+    {"type": "hook", "lines": ["Most of what", "you study is", "gone in", "24 hours."], "highlight_line": 3,
+     "source": ["The forgetting curve,", "Ebbinghaus (1885)"], "notch": "think"},
+    {"type": "bars", "title": ["Memory, with", "no review:"],
+     "bars": [["now", 100], ["20m", 58], ["1h", 44], ["9h", 36], ["1d", 34], ["6d", 25]],
+     "takeaway": ["After one day,", "only about 1/3 is left."]},
+    {"type": "sawtooth", "title": ["Each review", "resets the curve."], "caption": ["Space them right", "and it sticks."], "notch": "point"},
+    {"type": "timeline", "title": ["Cramrade places", "those reviews", "for you."], "caption": ["Closer together as", "the day gets near."]},
+    {"type": "app", "title": ["Every question", "comes from", "your notes."], "screen": "plan-card", "caption": ["No made-up facts."]},
+    {"type": "end", "cta": "PLAN"}
+  ]
+}

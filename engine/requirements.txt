@@ -1,0 +1,4 @@
+pillow>=10
+numpy>=1.24
+imageio-ffmpeg>=0.5   # only used when the system has no ffmpeg
+playwright>=1.40      # only for capture.py (live screenshots)

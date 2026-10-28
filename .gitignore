@@ -1,0 +1,4 @@
+__pycache__/
+*.silent.mp4
+*.wav
+engine/assets/screens/.*.new.png
