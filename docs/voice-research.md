@@ -50,3 +50,27 @@ Chosen: _(pending Minh's pick)_
 
 Upgrade path: more expressive engines (Chatterbox, OpenAI "cedar", ElevenLabs) need huggingface.co or a paid API allowed in the cloud network settings.
 Disney or celebrity voices (Baymax etc.) are off limits.
+
+## Round 2: wider search around C (2026-10-27)
+
+Minh picked C (am_liam). Searched 966 voices for ones that sound like C but fit the brief better.
+- Similarity is the cosine between Resemblyzer speaker embeddings and C.
+- "Brief score" combines: melody range, skew, pace distance from 180 wpm, pitch window 120–135 Hz, loudness variation, clarity (HNR).
+
+- **Kokoro, 54 variants of C:**
+  - liam blended 15% or 30% with each of the 12 other male voices;
+  - liam "exaggerated" away from the average male voice;
+  - two speeds each.
+  - All stay 0.96–0.995 similar to C.
+- **Piper LibriTTS-high, all 904 speakers screened** (model from GitHub release v0.0.2).
+  - The best match to C was only 0.76 similar; they are different people (audiobook readers).
+  - Speaker 189 was the only one close to C's brief score, and it is the clearest voice tested.
+
+| finalist | recipe | similarity to C | pitch | melody | pace | clarity (HNR) |
+|---|---|---|---|---|---|---|
+| C reference | am_liam, speed 0.92 | 1.000 | 134 | 12.9 | 174 | 9.6 |
+| K1 C plus character | liam + 0.2 × (liam − mean male style), 0.96 | 0.995 | 135 | 13.7 | 178 | 9.3 |
+| K2 C plus energy | 0.85 liam + 0.15 fenrir, 0.96 | 0.989 | 135 | 13.1 | 179 | 9.8 |
+| K3 C steadier | 0.70 liam + 0.30 fenrir, 0.92 | 0.965 | 136 | 12.9 | 178 | 10.0 |
+| K4 C clearer | 0.85 liam + 0.15 eric, 0.96 | 0.990 | 137 | 13.0 | 177 | 10.1 |
+| P1 speaker 189 | Piper libritts-high sid 189, length 0.9, noise 0.75 | 0.737 | 133 | 11.9 | 192 | 12.7 |
