@@ -1,6 +1,1 @@
-{"id":"2026-W44-02","seed":1,"scenes":[
- {"type":"hook","lines":["3 days to","your exam.","What helps","more?"],"highlight_line":1,"notch":"think"},
- {"type":"quiz","question":["Best way to","remember it?"],"options":["Reread your notes","Highlight key lines","Quiz yourself","Copy notes out"],"answer":2,"reveal_at":3.0,"dur":5.5,"caption":["Testing beat rereading","a week later.","Roediger & Karpicke, 2006"]},
- {"type":"statement","lines":["Pulling it","out of memory","is what makes","it stick."],"caption":["Rereading feels easier,","but it fades faster."],"notch":"point"},
- {"type":"app","title":["Cramrade quizzes","you from","your notes."],"screen":"plan-card","caption":["Every question shows","where it came from."]},
- {"type":"end"}]}
+{"id": "2026-W44-02", "seed": 1, "scenes": [{"type": "hook", "lines": ["3 days to", "your exam.", "What helps", "more?"], "highlight_line": 1, "notch": "think"}, {"type": "quiz", "question": ["Best way to", "remember it?"], "options": ["Reread your notes", "Highlight key lines", "Quiz yourself", "Copy notes out"], "answer": 2, "reveal_at": 3.0, "dur": 5.5, "caption": ["Testing beat rereading", "a week later.", "Roediger & Karpicke, 2006"]}, {"type": "statement", "lines": ["Pulling it", "out of memory", "helps it", "stick."], "caption": ["Rereading feels easier,", "but it fades faster."], "notch": "point"}, {"type": "app", "title": ["Cramrade quizzes", "you from", "your notes."], "screen": "plan-card", "caption": ["Every question shows", "where it came from."]}, {"type": "end"}]}

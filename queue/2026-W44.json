@@ -40,7 +40,7 @@
       "sources": [
         "https://doi.org/10.1111/j.1467-9280.2006.01693.x"
       ],
-      "status": "hold"
+      "status": "ready"
     },
     {
       "date": "2026-10-30",
@@ -61,7 +61,7 @@
         "https://doi.org/10.1177/1529100612453266",
         "https://doi.org/10.1038/nrn2762"
       ],
-      "status": "hold"
+      "status": "ready"
     },
     {
       "date": "2026-10-31",
@@ -79,7 +79,7 @@
       "tiktok_title": "A quiz that has to quote your notes",
       "youtube_title": "A quiz that has to quote your notes #Shorts",
       "sources": [],
-      "status": "hold"
+      "status": "ready"
     },
     {
       "date": "2026-11-01",
@@ -87,7 +87,7 @@
       "kind": "build",
       "video": "videos/2026-W44/05-building-it.mp4",
       "script": "scripts/2026-W44/05-building-it.json",
-      "caption": "I'm a student building the study app I wanted. Cramrade plans your reviews backwards from your exam date, quizzes you only from your own notes, and lets your study group quiz each other live with a join code.\n\nIt's early, and I want honest feedback. Beta, for students 18+. Comment PLAN and I'll send you the link.",
+      "caption": "I'm a student building the study app I wanted. Cramrade plans your reviews backwards from your exam date, quizzes you only from your own notes, and lets your study group quiz each other live: friends join with a code, no account needed for guests.\n\nIt's early, and I want honest feedback. Beta, for students 18+. Comment PLAN and I'll send you the link.",
       "hashtags": [
         "#buildinpublic",
         "#studentfounder",
@@ -97,7 +97,7 @@
       "tiktok_title": "I'm a student building the study app I wanted",
       "youtube_title": "I'm a student building the study app I wanted #Shorts",
       "sources": [],
-      "status": "hold"
+      "status": "ready"
     }
   ]
 }
