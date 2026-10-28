@@ -46,7 +46,7 @@
 | C young and bright | am_liam | 133 Hz | 13.0 st | 174 wpm |
 | D confident coach | 0.5 am_fenrir + 0.5 am_michael | 130 Hz | 10.2 st | 176 wpm |
 
-Chosen: _(pending Minh's pick)_
+Chosen (round 1, free engine): C. Superseded by round 3 below.
 
 Upgrade path: more expressive engines (Chatterbox, OpenAI "cedar", ElevenLabs) need huggingface.co or a paid API allowed in the cloud network settings.
 Disney or celebrity voices (Baymax etc.) are off limits.
@@ -74,3 +74,14 @@ Minh picked C (am_liam). Searched 966 voices for ones that sound like C but fit 
 | K3 C steadier | 0.70 liam + 0.30 fenrir, 0.92 | 0.965 | 136 | 12.9 | 178 | 10.0 |
 | K4 C clearer | 0.85 liam + 0.15 eric, 0.96 | 0.990 | 137 | 13.0 | 177 | 10.1 |
 | P1 speaker 189 | Piper libritts-high sid 189, length 0.9, noise 0.75 | 0.737 | 133 | 11.9 | 192 | 12.7 |
+
+## Round 3: ElevenLabs (2026-10-28), the chosen voice
+
+Minh moved to ElevenLabs (Starter plan).
+- **Tested:** 5 library voices (Todd, Theo Alston, Liam, Tyler, Paul) and 3 voices made with Voice Design, all reading the same lesson.
+- **Voice Design brief:** "A young adult man, around 19 to 21, energetic, light baritone, American accent. Inspiring like a favorite English teacher: warm, bright and reliable, with natural enthusiasm that makes listeners want to keep learning and hear more. Clear, friendly, confident, conversational pace."
+  - A first version saying "17 to 19" was blocked by ElevenLabs (no minor-sounding voices). That suits Cramrade being 18+ anyway.
+
+**Chosen: designed voice 3, saved as "Notch", ElevenLabs voice_id `WWN2ZT8HeZwUNFy2bh9r`** (model eleven_v4).
+- The voice id is not secret. The API key is, and it must only live in the cloud environment's settings, never in this repo.
+- Fallback when ElevenLabs is unavailable: Kokoro am_liam (C), speed 0.92, with the finishing chain above.
