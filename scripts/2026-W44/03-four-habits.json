@@ -1,0 +1,6 @@
+{"id":"2026-W44-03","seed":2,"scenes":[
+ {"type":"hook","lines":["4 study habits","with real","research","behind them."],"source":["Dunlosky et al. (2013)"],"notch":"hello"},
+ {"type":"list","title":["Midterm week:"],"items":[["Quiz yourself,","don't reread."],["Spread it over","several days."],["Mix topics in","one session."],["Sleep the night","before."]],"dur":6.0,"notch":"point"},
+ {"type":"statement","lines":["Cramming feels","fast.","Spacing is","what lasts."]},
+ {"type":"timeline","title":["Cramrade spaces","your reviews","to exam day."],"caption":["Plans start from","your exam date."]},
+ {"type":"end"}]}

@@ -1,0 +1,6 @@
+{"id":"2026-W44-05","seed":4,"scenes":[
+ {"type":"hook","lines":["I'm a student.","I'm building","the study app","I wanted."],"notch":"hello"},
+ {"type":"statement","lines":["It plans","backwards from","your exam."],"highlight_line":2,"caption":["Then quizzes you only","from your own notes."]},
+ {"type":"app","title":["Your group can","quiz each","other live."],"screen":"podium","caption":["Join with a code.","No account needed."]},
+ {"type":"statement","lines":["It's in beta.","Tell me what","to fix."],"caption":["Honest feedback wanted."],"notch":"cheer"},
+ {"type":"end"}]}

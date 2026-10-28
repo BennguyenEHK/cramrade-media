@@ -1,0 +1,6 @@
+{"id":"2026-W44-04","seed":3,"scenes":[
+ {"type":"hook","lines":["AI quiz tools","can make","things up."],"notch":"think"},
+ {"type":"statement","lines":["Ours has to","quote your","notes."],"caption":["Word for word."]},
+ {"type":"app","title":["No quote,","no question."],"screen":"quote-check","caption":["If the line isn't in your","notes, it gets dropped."]},
+ {"type":"app","title":["Every question","shows its source."],"screen":"plan-card","caption":["Check it in one look."]},
+ {"type":"end"}]}

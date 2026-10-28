@@ -8,11 +8,96 @@
       "video": "videos/2026-W44/01-forgetting-curve.mp4",
       "script": "scripts/2026-W44/01-forgetting-curve.json",
       "caption": "Ebbinghaus's forgetting curve: a day after learning something, only about a third was left. Each review resets the curve, and reviews spaced closer as the exam gets near make it stick.\n\nCramrade plans those reviews backwards from your exam date and quizzes you only from your own notes. Beta, for students 18+. Comment PLAN and I'll send you the link.",
-      "hashtags": ["#studytips", "#examprep", "#studentlife", "#spacedrepetition"],
+      "hashtags": [
+        "#studytips",
+        "#examprep",
+        "#studentlife",
+        "#spacedrepetition"
+      ],
       "tiktok_title": "Why you forget what you studied yesterday",
       "youtube_title": "Why you forget what you studied yesterday #Shorts",
-      "sources": ["https://en.wikipedia.org/wiki/Forgetting_curve", "https://doi.org/10.1371/journal.pone.0120644"],
+      "sources": [
+        "https://en.wikipedia.org/wiki/Forgetting_curve",
+        "https://doi.org/10.1371/journal.pone.0120644"
+      ],
       "status": "ready"
+    },
+    {
+      "date": "2026-10-29",
+      "time": "19:00",
+      "kind": "quiz",
+      "video": "videos/2026-W44/02-quiz-yourself.mp4",
+      "script": "scripts/2026-W44/02-quiz-yourself.json",
+      "caption": "Rereading feels productive, but testing yourself is what holds up. In Roediger & Karpicke's 2006 study, students who practised recalling a text remembered more a week later than students who reread it.\n\nCramrade turns your own notes into quiz questions, and each one shows the line it came from. Beta, for students 18+. Comment PLAN and I'll send you the link.",
+      "hashtags": [
+        "#studytips",
+        "#examprep",
+        "#retrievalpractice",
+        "#studentlife"
+      ],
+      "tiktok_title": "Rereading vs quizzing yourself: which wins?",
+      "youtube_title": "Rereading vs quizzing yourself: which wins? #Shorts",
+      "sources": [
+        "https://doi.org/10.1111/j.1467-9280.2006.01693.x"
+      ],
+      "status": "hold"
+    },
+    {
+      "date": "2026-10-30",
+      "time": "19:00",
+      "kind": "tips",
+      "video": "videos/2026-W44/03-four-habits.mp4",
+      "script": "scripts/2026-W44/03-four-habits.json",
+      "caption": "Four habits for midterm week: quiz yourself instead of rereading, spread study over several days, mix topics in a session, and sleep the night before. Practice testing and spacing are the two techniques Dunlosky et al. (2013) rated most useful.\n\nCramrade spaces your reviews from your exam date, closer together as the day gets near. Beta, for students 18+. Comment PLAN and I'll send you the link.",
+      "hashtags": [
+        "#studytips",
+        "#midterms",
+        "#examprep",
+        "#studentlife"
+      ],
+      "tiktok_title": "4 study habits with research behind them",
+      "youtube_title": "4 study habits with research behind them #Shorts",
+      "sources": [
+        "https://doi.org/10.1177/1529100612453266",
+        "https://doi.org/10.1038/nrn2762"
+      ],
+      "status": "hold"
+    },
+    {
+      "date": "2026-10-31",
+      "time": "19:00",
+      "kind": "feature",
+      "video": "videos/2026-W44/04-quote-check.mp4",
+      "script": "scripts/2026-W44/04-quote-check.json",
+      "caption": "AI quiz tools can invent facts. In Cramrade, every question has to quote the exact lines of your notes it came from. The app checks the quote word for word, and if it isn't there, the question is dropped.\n\nSo you only study what's actually in your notes. Beta, for students 18+. Comment PLAN and I'll send you the link.",
+      "hashtags": [
+        "#studytips",
+        "#studytok",
+        "#examprep",
+        "#notes"
+      ],
+      "tiktok_title": "A quiz that has to quote your notes",
+      "youtube_title": "A quiz that has to quote your notes #Shorts",
+      "sources": [],
+      "status": "hold"
+    },
+    {
+      "date": "2026-11-01",
+      "time": "19:00",
+      "kind": "build",
+      "video": "videos/2026-W44/05-building-it.mp4",
+      "script": "scripts/2026-W44/05-building-it.json",
+      "caption": "I'm a student building the study app I wanted. Cramrade plans your reviews backwards from your exam date, quizzes you only from your own notes, and lets your study group quiz each other live with a join code.\n\nIt's early, and I want honest feedback. Beta, for students 18+. Comment PLAN and I'll send you the link.",
+      "hashtags": [
+        "#buildinpublic",
+        "#studentfounder",
+        "#studytips",
+        "#studentlife"
+      ],
+      "tiktok_title": "I'm a student building the study app I wanted",
+      "youtube_title": "I'm a student building the study app I wanted #Shorts",
+      "sources": [],
+      "status": "hold"
     }
   ]
 }
