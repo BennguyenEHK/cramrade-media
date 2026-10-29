@@ -338,7 +338,17 @@ def build_audio(voice_path, shots, total, path, sr=44100):
     n = int(total * sr)
     voice = np.zeros(n)
     voice[:min(n, len(v))] = v[:n]
-    bed = lofi(total, sr)[:n]
+    bed_file = os.path.join(ENGINE, 'assets', 'music', 'cramrade-bed-base-camp.mp3')
+    if os.path.exists(bed_file):  # Cramrade theme "Base Camp" (engine/v2/music.py), looped
+        tmpb = path + '.bed.wav'
+        subprocess.run([R.FFMPEG, '-y', '-loglevel', 'error', '-stream_loop', '-1', '-i', bed_file, '-t', str(total),
+                        '-ac', '1', '-ar', str(sr), tmpb], check=True)
+        with wave.open(tmpb) as wf:
+            bed = np.frombuffer(wf.readframes(wf.getnframes()), dtype=np.int16).astype(np.float64) / 32768
+        os.remove(tmpb)
+        bed = np.pad(bed, (0, max(0, n - len(bed))))[:n] * 2.2
+    else:
+        bed = lofi(total, sr)[:n]
     # duck the bed under the voice
     envv = np.convolve(np.abs(voice), np.ones(2205) / 2205, mode='same')
     duck = 1.0 - 0.55 * np.clip(envv / (envv.max() + 1e-9) * 3, 0, 1)
