@@ -1,5 +1,12 @@
 # Outside sounds that are safe for the pipeline (researched 2026-10-28)
 
+**Decision (2026-10-28):** Minh picked **Minimalist Winter (MoodStrides, Pixabay)** as Cramrade's main theme.
+- Prepared versions are in his local `marketing/audio/`:
+  - `cramrade-theme-minimalist-winter-loop.mp3`: -17.6 LUFS, seamless 4 s crossfade loop;
+  - `cramrade-bed-minimalist-winter.mp3`: -19.6 LUFS.
+- **Do not commit these files here.** This repo is public, and the Pixabay licence forbids standalone redistribution.
+- To use it in the auto pipeline, it must come from private storage first (a private repo, or a fetch at render time). Until then, the engine falls back to the Base Camp bed.
+
 **Rule:** the auto pipeline only uses tracks that are CC0 or Pixabay-licensed **without** the "Content ID Registered" label.
 Labelled tracks get auto-claimed on YouTube, TikTok and Instagram, and nobody is there to dispute the claim.
 The default bed is still `engine/assets/music/cramrade-bed-base-camp.mp3`, which is ours and carries zero claim risk.
