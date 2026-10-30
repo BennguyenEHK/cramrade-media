@@ -4,7 +4,7 @@
  "items": [
   {
    "date": "2026-10-30",
-   "time": "16:30",
+   "time": "19:00",
    "kind": "fact",
    "video": "videos/2026-W44/01-recall-v3.mp4",
    "script": "samples/launch/01-recall.json",
@@ -22,8 +22,8 @@
     "https://source.washu.edu/2006/03/repeated-testtaking-better-for-retention-than-repeated-studying-research-shows/",
     "https://www.psychologicalscience.org/observer/test-enhanced-learning"
    ],
-   "status": "hold",
-   "note": "launch post 1: first posted 2026-10-30 16:27 with Minimalist Winter; reposted with its own score the same day",
+   "status": "booked",
+   "note": "booked 2026-10-30 19:00 CDT on TikTok/Instagram/YouTube (Buffer 6ae520c1eaa24d6f9a432dc8, 6ae520c1ceb491e585c5b257, 6ae520c2b84259308ba6a2da)",
    "music": "engine/assets/music/scores/cramrade-score-01-recall.mp3"
   },
   {
