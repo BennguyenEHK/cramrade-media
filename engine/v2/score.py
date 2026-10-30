@@ -1,6 +1,8 @@
 """Original scores for the "Notch explains" launch videos, composed in code (no samples, royalty-free, ours).
 
     python engine/v2/score.py OUTDIR [--sfx DIR]     writes score-01-recall.mp3, score-02-spacing.mp3, score-03-group.mp3
+    python engine/v2/score.py auto SHOTS.json OUT.mp3 [--palette snow|bells|group|ember] [--seed N]
+                                                      an original cue for any video, following its cuts
 
 Each cue is written to the exact length of its video and its changes land on the video's cuts
 (times taken from samples/launch/*.json), so the music "acts out" the story:
@@ -370,6 +372,68 @@ def finish(x, T):
     return x
 
 
+# ---------------- auto cue: one original track for any shots JSON (used by the weekly run) ----------------
+
+PALETTES = {
+    # name: (key root midi, progression of chords as scale-degree triads, lead instrument, tempo, groove)
+    'snow':   (40, [[0, 4, 7, 11], [-3, 0, 4, 7], [-7, -3, 0, 4], [-5, -1, 2, 5]], 'marimba', 84, True),   # E minor-ish
+    'bells':  (38, [[0, 4, 7, 11], [-3, 0, 4, 7], [-7, -3, 0, 4], [-5, -1, 2, 7]], 'celesta', 72, False),  # D major
+    'group':  (41, [[0, 4, 7, 11], [-3, 0, 4, 7], [-7, -3, 0, 4], [-5, -1, 2, 7]], 'pluck', 96, True),    # F major
+    'ember':  (43, [[0, 3, 7, 10], [-4, 0, 3, 7], [-7, -4, 0, 3], [-2, 2, 5, 9]], 'felt', 76, False),       # G minor
+}
+
+
+def cue_auto(spec, palette=None, seed=0):
+    """A study-friendly cue that follows the video's cuts: a chord change on every shot, a light arpeggio,
+    a soft groove in the middle third (if the palette has one), and the Cramrade climb motif + bell on the
+    'end' shot. Different palette/seed per video = a different track per video."""
+    r = np.random.default_rng(seed)
+    names = list(PALETTES)
+    palette = palette or names[seed % len(names)]
+    root, prog, lead, bpm, groove = PALETTES[palette]
+    T = spec['end_t']
+    shots = spec['shots']
+    tr = M.Track(T)
+    b = 60 / bpm
+    inst = {'marimba': marimba, 'celesta': celesta,
+            'pluck': lambda f, v: pluck(f, v, 0.9, 0.3),
+            'felt': lambda f, v: M.felt_piano(f, 1.2, v, r)}[lead]
+    times = [s['t'] for s in shots] + [T]
+    end_t = next((s['t'] for s in shots if s['set'] == 'end'), T - 3)
+    for i, s in enumerate(shots):
+        t0, t1 = times[i], times[i + 1]
+        if s['set'] == 'end':
+            break
+        ch = [root + 12 + d for d in prog[i % len(prog)]]
+        chord_pad(tr, t0, t1 - t0, ch[:3], 0.8)
+        tr.add(t0, M.sub(hz(root - 12 + prog[i % len(prog)][0] % 12), max(0.5, (t1 - t0) * 0.8)))
+        frac = t0 / max(1.0, end_t)
+        density = 0.5 if frac < 0.33 else (0.0 if frac < 0.8 else 0.25)
+        arp(tr, t0 + 0.05, t1, [n + 12 for n in ch] + [ch[2] + 24], b / 2, inst, 0.38,
+            drop=lambda t, d=density: d)
+        if groove and 0.33 <= frac < 0.85:
+            k = 0
+            t = t0
+            while t < t1 - 0.05:
+                if k % 4 == 0:
+                    tr.add(t, kick(0.38))
+                tr.add(t, shaker(0.12 if k % 2 else 0.07), 0.3)
+                t += b / 2
+                k += 1
+        if i and r.random() < 0.35:
+            tr.add(t0, M.bell(hz(root + 36 + prog[0][r.integers(0, 3)]), 0.25), 0.3)
+    # ending: tonic chord + climb motif (1 2 3 5) + summit bell
+    tonic = [root + 12 + d for d in prog[0]]
+    chord_pad(tr, end_t, T - end_t, tonic, 1.1)
+    tr.add(end_t, M.sub(hz(root), T - end_t))
+    major = prog[0][1] == 4
+    motif = [0, 2, 4, 7] if major else [0, 2, 3, 7]
+    for i, d in enumerate(motif):
+        tr.add(end_t + 0.05 + i * 0.3, M.felt_piano(hz(root + 24 + d), 1.0, 0.5, r), 0.1)
+    tr.add(end_t + 0.05 + 4 * 0.3 + 0.05, M.bell(hz(root + 36), 0.5), 0.2)
+    return finish(tr.mix(reverb=0.38), T)
+
+
 def main(outdir, sfx_dir=None):
     os.makedirs(outdir, exist_ok=True)
     for name, fn, T in (('score-01-recall', cue_recall, 32.4), ('score-02-spacing', cue_spacing, 31.45),
@@ -380,5 +444,13 @@ def main(outdir, sfx_dir=None):
 
 if __name__ == '__main__':
     a = sys.argv[1:]
+    if a and a[0] == 'auto':  # python engine/v2/score.py auto SHOTS.json OUT.mp3 [--palette snow|bells|group|ember] [--seed N]
+        import json
+        spec = json.load(open(a[1]))
+        pal = a[a.index('--palette') + 1] if '--palette' in a else None
+        sd = int(a[a.index('--seed') + 1]) if '--seed' in a else 0
+        M.write(a[2], cue_auto(spec, pal, sd), -19.5)
+        print('wrote', a[2], pal or list(PALETTES)[sd % len(PALETTES)])
+        sys.exit(0)
     sfx = a[a.index('--sfx') + 1] if '--sfx' in a else None
     main(a[0] if a else '.', sfx)

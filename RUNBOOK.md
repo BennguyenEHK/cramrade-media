@@ -1,17 +1,19 @@
-# Weekly run: make next week's videos
+# Weekly run: make next week's videos (engine v2, "Notch explains")
 
 > **Pause switch:** if a file named `PAUSED` exists at the repo root, do nothing else: your final message is `paused: <first line of PAUSED>` and you stop.
 
 You are the Cramrade weekly video run, started by a scheduled task in a fresh cloud session. Nobody is
 watching and nobody will answer questions. Take the most reasonable choice, write it down, carry on.
-You make up to 7 short faceless pixel videos, check them, store them in this repo and queue them. You do
-**not** book posts in Buffer: the daily publish run (`PUBLISH.md`) books each day's post on the day.
-That is because Buffer's free plan holds at most 10 scheduled posts and a week is 21.
+You make up to 7 short faceless videos with Notch, check them, store them in this repo, queue them with
+status `review`, and **email Minh the videos to review**. You do **not** book posts in Buffer: the daily
+publish run (`PUBLISH.md`) books each day's video only after Minh has approved it by email.
 
-Cramrade (https://cramrade.app) is a study web app in beta for students 18+: it plans reviews backwards
-from the exam date and quizzes you only from your own notes. **Read `docs/knowledge.md` fully before
-writing anything**: section 5 lists what must never be claimed. Look and feel: `docs/style-guide.md`.
-Script format: `engine/README.md`.
+Cramrade (https://cramrade.app) is a study web app in beta, invite-only (waitlist): it plans reviews
+backwards from the exam date and quizzes you only from your own notes. Before writing anything, read:
+1. `docs/knowledge.md` fully (section 5 = never claim; binding),
+2. `docs/content-plan.md` (the approved format: one technique, explained precisely, then the feature),
+3. `docs/video-research.md` (why the format looks like this), `docs/style-guide.md`, `docs/learnings.md`,
+4. the approved examples: `samples/launch/*.json` (shots), `queue/2026-W44.json` (captions).
 
 ## 0. Set up (5 min)
 
@@ -19,7 +21,7 @@ Script format: `engine/README.md`.
 date -u +%Y-%m-%dT%H:%M:%SZ        # STARTED_AT
 cd <repo> && git pull --ff-only
 pip install -r engine/requirements.txt --break-system-packages -q
-python engine/capture.py            # refreshes app screenshots, or keeps the stored ones; either is fine
+which tesseract || (apt-get install -y -q tesseract-ocr >/dev/null 2>&1 || true)   # for scan_text.py
 ```
 
 Work out the **target dates**: every day from tomorrow (Chicago time) up to and including the Sunday
@@ -27,8 +29,9 @@ that ends next ISO week if today is Sunday, otherwise this ISO week's Sunday. Dr
 have an item in any `queue/*.json`. At most 7. WEEK = the ISO week of the first target date
 (e.g. `2026-W45`). If there are no target dates, skip to step 7.
 
-Check the Buffer tools are present (`mcp__Buffer__get_account`). If they are not, still make the videos,
-and say so at the top of the final message: the daily run needs them to post.
+Check the tools: Buffer (`mcp__Buffer__get_account`) and Gmail (a send-email tool). If Gmail is missing,
+still make the videos, and put "REVIEW EMAIL NOT SENT: Gmail tool missing" in the first line of the final
+message (Minh then reviews from the phone notification links).
 
 ## 1. Read last week's results (Buffer)
 
@@ -39,8 +42,7 @@ Instagram `6adeae0a2f1f5ed648d2098e`, YouTube `6adeb1252f1f5ed648d21ba6`.
 - Match each post to its queue item by the video URL or caption. For each video, append one line to
   `docs/learnings.md` under "Results": date, kind, hook line, and per channel views or impressions,
   likes and comments.
-- Then update the "What works" section in at most 5 bullets: which kinds and hooks did best, and what to
-  do more or less of. With under 2 weeks of data, say "too early" rather than guessing.
+- Then update "What works" in at most 5 bullets. With under 2 weeks of data, say "too early".
 - List errored posts (`status: ["error"]`) in the final message with their error text.
 
 ## 2. Research (one helper agent, in parallel with step 3)
@@ -48,107 +50,129 @@ Instagram `6adeae0a2f1f5ed648d2098e`, YouTube `6adeb1252f1f5ed648d21ba6`.
 Start one **Scout** agent with this brief (fill in the dates):
 
 > Find material for Cramrade's short study videos for <target dates>. Cramrade is a study web app for
-> university students 18+. Return a markdown list, written to `runs/<WEEK>/scout.md`:
-> (a) 4 study-science facts that a student would find surprising, each with one plain-words sentence,
-> the numbers, and **2 sources** (a paper, a university page or a reputable outlet; give URLs you
-> actually opened). Prefer: spacing, retrieval practice, sleep and memory, cramming, interleaving,
-> handwriting vs typing, test anxiety. Mark anything contested.
-> (b) 3 things students are talking about this week on TikTok, Reddit or campus news (midterms, finals
-> timing, a viral study trend), each with a link and the date seen.
-> (c) 2 quiz questions about how memory works, each with 4 options, the answer and a source.
+> university students. Return a markdown list, written to `runs/<WEEK>/scout.md`:
+> (a) 6 study techniques backed by research that a student would find surprising, each with: one
+> plain-words sentence, the exact numbers (sample size, effect, what was compared), and **2 sources**
+> (the paper or a university/reputable page; give URLs you actually opened). Prefer: retrieval practice,
+> spacing, interleaving, sleep and memory, cramming vs spacing, pretesting, elaboration, test anxiety,
+> handwriting vs typing. Mark anything contested or small-sample. Avoid the ones listed as "already done"
+> in docs/content-plan.md.
+> (b) 2 things students are talking about this week (midterms/finals timing, a study trend), with link and date.
 > No medical advice. No claims about any product.
 
-While it runs, look at `docs/learnings.md` and the last two queue files so you don't repeat a hook.
+While it runs, read `docs/learnings.md` and the last two queue files so you don't repeat a hook.
 
 ## 3. Plan the week
 
-One video per target date. Mix for a full week (drop from the end for shorter weeks):
+One video per target date, each following `docs/content-plan.md`: one technique, the precise number and
+its study, what to do, then the Cramrade feature that matches it, on a real screenshot. Rotate the pillars
+so no two days in a row use the same feature. If the Scout found a timely trend that fits, use it as the
+hook of one video. Kinds for the queue: `fact` (a study number), `tips`, `feature`, `trend`.
 
-| # | kind | what |
-|---|---|---|
-| 1 | `fact` | a study-science fact with sources, ends on how Cramrade uses it |
-| 2 | `quiz` | "Can you answer this?" memory question, reveal, the lesson |
-| 3 | `tips` | 3–4 tips list (exam week, how to review, group study) |
-| 4 | `feature` | one real Cramrade feature with an app screen (only what section 2 of knowledge.md says is live) |
-| 5 | `fact` | a second fact, different topic |
-| 6 | `build` | build in public: "I'm a student building this" statement, honest, beta |
-| 7 | `trend` | ride one Scout trend, only if it fits; otherwise another `tips` |
+Write each script (60-85 spoken words) in `scripts/<WEEK>/NN-<slug>.txt`:
+- Hook in the first sentence (a relatable moment or a number). Plain words, short sentences, no hype.
+- Name the study in words a student understands ("In a 2006 study...", "Researchers tested more than 1,350 people").
+- One true Cramrade feature from docs/knowledge.md section 2, said plainly.
+- End exactly with: "Comment PLAN, and I'll send you the link."
+- At most one ElevenLabs tag such as [excited], before the turn from problem to fix.
+- Never "18+", never "AI study plan", never "sign up".
 
-Rules for every video:
-- The hook (first 2 seconds) is a surprising number or a question. Sentence case. No clickbait you cannot back.
-- 15–30 seconds total is the target (the engine allows 12–45).
-- One idea per video. Every `fact` number has its source in the script (`source` lines on the hook) and in the queue item.
-- Mention Cramrade at most twice, and only with true features. Always end with the `end` scene.
-- Each video gets a different `seed` (0, 1, 2, …).
+## 4. Voice, scenes, music, render
 
-## 4. Write and render
+For each video, `NN` = 01, 02, … in date order; files go in `samples/<WEEK>/` (shots, voice, words) and
+`videos/<WEEK>/`:
 
-For each video, `NN` = 01, 02, … in date order:
-
-1. Write `scripts/<WEEK>/NN-<slug>.json`. Run `python engine/render.py <script> --check` and fix until clean.
-2. Render: `python engine/render.py <script> videos/<WEEK>/NN-<slug>.mp4 --sheet runs/<WEEK>/NN.png`.
-3. Look at the contact sheet yourself (Read the PNG). Fix anything cramped, cut off or hard to read.
-   Then run `python engine/scan_text.py videos/<WEEK>/NN-<slug>.mp4`: it reads the text in every half second
-   of the video and must end with `0 with forbidden text` (no "18+" / "18 and over" anywhere). Any new
-   screenshot you add under `engine/assets/screens/` must pass the same scan.
-4. Add the item to `queue/<WEEK>.json` (format: `queue/2026-W44.json`):
-   - `time` `"19:00"` (Chicago).
-   - `caption`: 2 short paragraphs, plain words. First, the idea. Second, how Cramrade fits plus
+1. **Voice + word timings:** `python engine/v2/voice.py "$(cat scripts/<WEEK>/NN-<slug>.txt)" samples/<WEEK>/NN-<slug>`.
+   It uses ElevenLabs (the real Notch voice) when `ELEVENLABS_API_KEY` is set and api.elevenlabs.io is
+   reachable, otherwise the Kokoro fallback voice. If it prints `FALLBACK`, say so in the review email and
+   the final message. Run it once per video (ElevenLabs charges per call; never loop on errors).
+2. **Shots JSON** `samples/<WEEK>/NN-<slug>.json`, the format of `samples/launch/01-recall.json`:
+   `voice`, `words`, `end_t` = last word end + 0.8 s, `emphasis` (4-10 key words, "blue"; "exam" "amber"),
+   `shots`: cut on sentence boundaries from the words file, a new shot every 1.5-3 s, last shot `end` at
+   "Comment PLAN". Use the sets in `engine/v2/notch_v2.py` (`SETS`); write a new set function when the story
+   needs a new picture (keep the pixel line-art look, art inside canvas y 55-325, only Notch blue and exam
+   amber). The Cramrade beat uses `"set": "screen"` with `"screen": {"file": "home/....png", "hl": [x0,y0,x1,y1]}`
+   (crop with `"crop"` when the image is wide). Screens and what they show: `engine/assets/screens/screens.json`.
+3. **Music:** `python engine/v2/score.py auto samples/<WEEK>/NN-<slug>.json samples/<WEEK>/NN-<slug>-music.mp3 --seed <NN>`
+   (a different track per video; it follows the video's cuts).
+4. **Render:** `python engine/v2/notch_v2.py samples/<WEEK>/NN-<slug>.json videos/<WEEK>/NN-<slug>.mp4 --sheet runs/<WEEK>/NN.png --bed samples/<WEEK>/NN-<slug>-music.mp3`.
+5. **Look** at the contact sheet yourself (Read the PNG): nothing cut off, the caption never covers Notch or
+   the screenshot, the highlight box sits on the right line. Fix and re-render if not.
+6. **Scan:** `python engine/scan_text.py videos/<WEEK>/NN-<slug>.mp4` must end with `0 with forbidden text`
+   (no "18+" / "18 and over" anywhere). Loudness: about -14 LUFS (the engine normalises it).
+7. **Queue item** in `queue/<WEEK>.json` (format: `queue/2026-W44.json`):
+   - `time` `"19:00"` (Chicago), `kind`, `video`, `script` (the shots JSON path), `sources` (2 URLs per number).
+   - `caption`: paragraph 1 the idea with the study and number; paragraph 2 how Cramrade fits, ending
      "Cramrade is invite-only right now. Comment PLAN and I'll send you the waitlist link."
-   - **No "18+" anywhere** (Minh, 2026-10-30): not in the caption, the titles, the voiceover, the captions
-     on screen, the end card or any screenshot shown in the video. Cramrade is still for 18+ only, so never
-     aim a video at teens or high school (docs/knowledge.md section 5); just don't print the age line.
-     `engine/queue.py check` rejects "18+", "18 and over" and "students 18".
-   - 3–5 hashtags.
-   - `tiktok_title` ≤ 90 chars; `youtube_title` ≤ 100 chars ending with `#Shorts`.
-   - `sources` for every `fact`.
-   - `status` `"ready"`.
-5. `python engine/queue.py check queue/<WEEK>.json` must print `queue ok`.
+   - 3-5 hashtags; `tiktok_title` ≤ 90 chars; `youtube_title` ≤ 100 chars ending with `#Shorts`.
+   - **`status` `"review"`** (the daily run only books it after Minh approves; see step 6).
+   - **No "18+" anywhere** (Minh, 2026-10-30): caption, titles, voiceover, on-screen captions, end card, screenshots.
+8. `python engine/queue.py check queue/<WEEK>.json` must print `queue ok`.
 
 ## 5. Independent review (one helper agent)
 
 Start a **Reviewer** agent that has not seen your reasoning. Give it the paths, not your opinions:
 
-> You review Cramrade's short videos before they go public. Read `docs/knowledge.md` (section 5 is
-> binding), `docs/style-guide.md`, then for each item in `queue/<WEEK>.json`: its script JSON, its
-> contact sheet `runs/<WEEK>/NN.png`, and its caption. Open every source URL that the item cites. Return,
-> per video, PASS, or FIX with exact changes, or DROP with the reason. FIX or DROP when: a number is not
-> supported by the cited source; any claim breaks section 5 (18+ only, no phone app or alarms, no
-> prices or "free", no "AI study plan", no "nothing leaves your device", no results claims, no
-> first/only claims); any "18+" / "18 and over" text is visible or spoken anywhere in the video or written in
-> the caption (Minh's rule, 2026-10-30); a feature is shown that is not live; text is cut off or unreadable on a phone;
-> the caption and the video disagree; the tone is hype or guilt. Write your verdicts to
-> `runs/<WEEK>/review.md`.
+> You review Cramrade's short videos before they go to the founder. Read `docs/knowledge.md` (section 5
+> is binding), `docs/content-plan.md`, then for each item in `queue/<WEEK>.json`: its script, its shots
+> JSON, its contact sheet `runs/<WEEK>/NN.png`, its words file and its caption. Open every source URL the
+> item cites. Return, per video, PASS, or FIX with exact changes, or DROP with the reason. FIX or DROP when:
+> a number is not supported by the cited source; any claim breaks section 5 (no teens, no phone app or
+> alarms, no prices or "free", no "AI study plan", no "nothing leaves your device", no results claims, no
+> first/only claims); any "18+" / "18 and over" text is visible, spoken or written; a feature is shown that
+> is not live; the screenshot does not match what the voice says; text is cut off or unreadable on a phone;
+> the caption and the video disagree; the tone is hype or guilt. Write your verdicts to `runs/<WEEK>/review.md`.
 
-Apply the FIXes, re-render, and ask the same Reviewer to look again (send it a message). At most 2
-rounds. A video that still fails is removed: delete its mp4 and queue item and leave that date empty.
+Apply the FIXes, re-render, ask the same Reviewer to look again (send it a message). At most 2 rounds. A
+video that still fails is removed: delete its mp4 and queue item and leave that date empty.
 
-## 6. Publish to the repo
+## 6. Publish to the repo, then send Minh the review email
 
 ```bash
-git add scripts videos queue runs docs
-git commit -m "Week <WEEK>: <n> videos"        # end with the attribution lines from the session
+git add scripts samples videos queue runs docs engine
+git commit -m "Week <WEEK>: <n> videos for review"        # end with the attribution lines from the session
 git push
 ```
 
-Then check that each video URL answers 200:
-`curl -sI https://raw.githubusercontent.com/BennguyenEHK/cramrade-media/main/videos/<WEEK>/<file> | head -1`.
-The raw URL can take a minute to update; retry once after 60 s.
+Check each video URL answers 200: `curl -sI https://raw.githubusercontent.com/BennguyenEHK/cramrade-media/main/videos/<WEEK>/<file> | head -1`
+(the raw URL can take a minute; retry once after 60 s).
+
+Then send **one** email with the Gmail tool, to **bennguyenehk@gmail.com only**, plain text:
+- Subject exactly: `[Cramrade] Review week <WEEK>: <n> videos`
+- Body, per video, numbered with its NN:
+  ```
+  NN  <weekday date> 7 pm  ·  <kind>  ·  <hook sentence>
+      Watch: https://raw.githubusercontent.com/BennguyenEHK/cramrade-media/main/videos/<WEEK>/<file>.mp4
+      Stills: https://raw.githubusercontent.com/BennguyenEHK/cramrade-media/main/runs/<WEEK>/NN.png
+      Caption: <first sentence of the caption> …
+      Sources: <urls>
+  ```
+  then one line if the voice used the fallback, then:
+  ```
+  How to answer (reply to this email; the daily run reads your reply at 1 pm on each post day):
+    APPROVE ALL            post every video on its day
+    APPROVE 01 03 04       post only these
+    DROP 02                never post this one
+    FIX 05: <what to change>   not posted; tell Claude what to change
+  Nothing is posted until you approve it.
+  ```
 
 ## 7. Clean up
 
 Delete `videos/<week>/` folders whose last queue date is more than 14 days ago, and set those items'
-`status` to `"archived"`. Scripts, queue files and runs stay. Commit and push.
+`status` to `"archived"`. Scripts, samples, queue files and runs stay. Commit and push.
 
 ## 8. Final message (this is all the founder reads; also sent as a phone notification)
 
 At most 15 lines:
-- The week and how many videos are queued, one line each: date, kind, hook.
-- Anything dropped and why.
+- First line: "<n> videos ready for your review: check your email ([Cramrade] Review week <WEEK>)",
+  or what blocked the run.
+- One line per video: date, kind, hook.
+- Anything dropped and why; whether the voice was ElevenLabs or the fallback.
 - Last week's numbers in one line, and the top video.
-- Problems: errored posts, a missing Buffer connection, a failed push.
-- "Reply to PLAN comments with the link: cramrade.app"
+- Problems: errored posts, a missing Buffer or Gmail connection, a failed push.
 
-Never: book or delete Buffer posts (the daily run books them); commit keys, passwords, emails or anything
-from a signed-in account; claim something section 5 forbids; leave the repo with a failing
+Never: book or delete Buffer posts (the daily run books them after approval); email anyone but
+bennguyenehk@gmail.com; commit keys, passwords, emails or anything from a signed-in account; claim
+something section 5 forbids; put "18+" in any video, caption or title; leave the repo with a failing
 `queue.py check`.

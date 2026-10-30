@@ -1,7 +1,8 @@
 """Post queue helper.
 
     python engine/queue.py check queue/2026-W45.json   validate one week's queue (exit 1 on problems)
-    python engine/queue.py today [YYYY-MM-DD]          print the items due that day (default: today, Chicago)
+    python engine/queue.py today [YYYY-MM-DD]          print the items due that day (default: today, Chicago):
+                                                       status 'ready' (approved) and 'review' (needs Minh's OK)
 
 A queue file lists one item per video. The daily publish run reads it and books the posts in Buffer.
 """
@@ -32,6 +33,8 @@ def problems(q):
         for k in REQUIRED:
             if not it.get(k):
                 out.append(f'{w}: missing {k}')
+        if it.get('status', 'ready') not in ('ready', 'review', 'hold', 'booked', 'archived'):
+            out.append(f'{w}: status must be ready, review, hold, booked or archived')
         if it.get('kind') not in KINDS:
             out.append(f'{w}: kind must be one of {sorted(KINDS)}')
         if it.get('date') in seen:
@@ -68,7 +71,8 @@ def due(day):
         with open(path) as fh:
             q = json.load(fh)
         for it in q.get('items', []):
-            if it.get('date') == day and it.get('status', 'ready') == 'ready':
+            # 'review' = waiting for Minh's OK by email (PUBLISH.md step 2); 'ready' = already approved
+            if it.get('date') == day and it.get('status', 'ready') in ('ready', 'review'):
                 it = dict(it, queue_file=os.path.relpath(path, ROOT), video_url=RAW + it['video'],
                           text=post_text(it),
                           due_at=dt.datetime.fromisoformat(f'{day}T{it["time"]}').replace(tzinfo=TZ).isoformat())
