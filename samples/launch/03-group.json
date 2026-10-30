@@ -1,0 +1,186 @@
+{
+ "voice": "03-group-voice.mp3",
+ "words": "03-group-words.json",
+ "end_t": 29.4,
+ "emphasis": {
+  "tonight?": "blue",
+  "tonight": "blue",
+  "nobody": "blue",
+  "flip": "blue",
+  "quiz": "blue",
+  "sticks": "blue",
+  "miss": "blue",
+  "next": "blue",
+  "code": "blue",
+  "group's": "blue",
+  "plan": "blue"
+ },
+ "shots": [
+  {
+   "t": 0.0,
+   "set": "group_read",
+   "cam": {
+    "z": [
+     1.0,
+     1.06
+    ],
+    "c": [
+     135,
+     200
+    ]
+   }
+  },
+  {
+   "t": 3.15,
+   "set": "group_read",
+   "cam": {
+    "z": [
+     1.2,
+     1.28
+    ],
+    "c": [
+     135,
+     252
+    ]
+   }
+  },
+  {
+   "t": 5.55,
+   "set": "group_read",
+   "cam": {
+    "z": [
+     1.1,
+     1.15
+    ],
+    "c": [
+     150,
+     262
+    ]
+   }
+  },
+  {
+   "t": 6.9,
+   "set": "group_forget",
+   "cam": {
+    "z": [
+     1.0,
+     1.06
+    ],
+    "c": [
+     135,
+     200
+    ]
+   }
+  },
+  {
+   "t": 8.4,
+   "set": "fix",
+   "cam": {
+    "z": [
+     1.05,
+     1.25
+    ],
+    "c": [
+     135,
+     230
+    ]
+   }
+  },
+  {
+   "t": 9.3,
+   "set": "quiz_each",
+   "cam": {
+    "z": [
+     1.0,
+     1.1
+    ],
+    "c": [
+     135,
+     200
+    ]
+   }
+  },
+  {
+   "t": 12.9,
+   "set": "sticks",
+   "cam": {
+    "z": [
+     1.0,
+     1.06
+    ],
+    "c": [
+     135,
+     200
+    ]
+   }
+  },
+  {
+   "t": 16.5,
+   "set": "misses",
+   "cam": {
+    "z": [
+     1.0,
+     1.06
+    ],
+    "c": [
+     135,
+     180
+    ]
+   }
+  },
+  {
+   "t": 20.2,
+   "set": "screen",
+   "screen": {
+    "file": "home/how-it-works.png",
+    "crop": [
+     702,
+     0,
+     953,
+     274
+    ]
+   },
+   "cam": {
+    "z": [
+     1,
+     1
+    ],
+    "c": [
+     135,
+     200
+    ]
+   }
+  },
+  {
+   "t": 23.8,
+   "set": "screen",
+   "screen": {
+    "file": "podium.png"
+   },
+   "cam": {
+    "z": [
+     1,
+     1
+    ],
+    "c": [
+     135,
+     200
+    ]
+   }
+  },
+  {
+   "t": 26.6,
+   "set": "end",
+   "cam": {
+    "z": [
+     1,
+     1
+    ],
+    "c": [
+     135,
+     240
+    ]
+   }
+  }
+ ]
+}

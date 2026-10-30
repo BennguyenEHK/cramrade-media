@@ -58,5 +58,45 @@
       "w": 485,
       "h": 200
     }
+  },
+  "home-hero": {
+    "file": "home/hero.png",
+    "shows": "Home hero: \"Your notes, planned backwards from exam day.\", Start a plan button, 3D study calendar ending on an amber Exam day block, sample Biology question card.",
+    "source_url": "https://cramrade.app/ (public home page, captured 2026-10-30)"
+  },
+  "home-plan-calendar": {
+    "file": "home/plan-calendar.png",
+    "shows": "Sample question card + 3D calendar of sessions climbing to the amber Exam day cube.",
+    "source_url": "https://cramrade.app/ (public home page, captured 2026-10-30)"
+  },
+  "home-question-source": {
+    "file": "home/question-source.png",
+    "shows": "Sample session card: Biology, 5 questions, Krebs cycle question with \"From your notes, line 14\".",
+    "source_url": "https://cramrade.app/ (public home page, captured 2026-10-30)"
+  },
+  "home-how-it-works": {
+    "file": "home/how-it-works.png",
+    "shows": "How it works, 4 steps: add the exam date, add your notes (Word/PDF/text; photos soon in the phone app), study in short sessions, quiz your group.",
+    "source_url": "https://cramrade.app/ (public home page, captured 2026-10-30)"
+  },
+  "home-date-not-streak": {
+    "file": "home/date-not-streak.png",
+    "shows": "Card \"Built around the date, not around a streak\": plain arithmetic, sessions closer together, move the date and the plan moves, reminders and calendar.",
+    "source_url": "https://cramrade.app/ (public home page, captured 2026-10-30)"
+  },
+  "home-quote-check": {
+    "file": "home/quote-check-card.png",
+    "shows": "Card \"Questions from your notes, and only your notes\": quote found = kept, quote not found = dropped.",
+    "source_url": "https://cramrade.app/ (public home page, captured 2026-10-30)"
+  },
+  "home-privacy": {
+    "file": "home/privacy.png",
+    "shows": "Where your notes go: note text to server and the AI, files deleted after reading, never scans your device, never reads your calendar.",
+    "source_url": "https://cramrade.app/ (public home page, captured 2026-10-30)"
+  },
+  "home-cta": {
+    "file": "home/cta.png",
+    "shows": "\"Got an exam coming up?\" closing call to action with Start a plan.",
+    "source_url": "https://cramrade.app/ (public home page, captured 2026-10-30)"
   }
 }

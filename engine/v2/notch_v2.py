@@ -1,6 +1,6 @@
 """Engine v2: Notch in a dark pixel line-art room, voiceover, word-by-word captions, lo-fi bed.
 
-    python engine/v2/notch_v2.py SHOTS.json OUT.mp4 [--sheet SHEET.png]
+    python engine/v2/notch_v2.py SHOTS.json OUT.mp4 [--sheet SHEET.png] [--bed BED.mp3]
 
 SHOTS.json: {"voice": "path.mp3", "words": "path.json" (list of {text,start,end}),
              "emphasis": {"word": "blue"|"amber"}, "shots": [{"t": start_s, "set": ..., "pose": ...,
@@ -240,6 +240,274 @@ SETS.update({'desk_night': shot_desk_night, 'morning': shot_morning, 'gone': sho
              'sticks': shot_sticks, 'exam': shot_exam, 'end': shot_end})
 
 
+# ---------------- sets added 2026-10-30 (launch series: "Notch explains") ----------------
+
+def label(d, xy, txt, size=10, col=LINE_HI, anchor='mm'):
+    d.text(xy, txt, font=pix_font(size), fill=col, anchor=anchor)
+
+
+def floor(d, y=318):
+    d.line([0, y, PW, y], fill=LINE)
+
+
+def shot_reread(d, img, t, lt, s):
+    """Notch re-reading the same notes; a counter ticks x1..x4."""
+    set_room(d, t)
+    prop_books(d, 150, 248)
+    n = min(4, 1 + int(lt / 0.45))
+    label(d, (60, 205), f'x{n}', 18, BLUE)
+    draw_notch(img, 'study', 186, 248, 4, t)
+
+
+def shot_familiar(d, img, t, lt, s):
+    """Thought bubble full of notes that all glow 'familiar'."""
+    prop_bubble(d, 82, 100, t, fade=0.0, glow=True)
+    draw_notch(img, 'think', 135, 318, 5, t)
+
+
+def _bars(both):
+    def f(d, img, t, lt, s):
+        k = ease(min(1.0, lt / 0.7))
+        base, h = 262, 150
+        floor(d, base)
+        x1, x2 = 38, 118
+        h1 = int(h * 0.40 * k)
+        d.rectangle([x1, base - h1, x1 + 56, base], outline=LINE_HI, fill=LINE_DIM)
+        label(d, (x1 + 28, base - h1 - 12), '40%', 14, LINE_HI)
+        label(d, (x1 + 28, base + 14), 'RE-READ', 9)
+        if both:
+            k2 = ease(min(1.0, max(0.0, lt - 0.3) / 0.7))
+            h2 = int(h * 0.61 * k2)
+            d.rectangle([x2, base - h2, x2 + 56, base], fill=BLUE)
+            if k2 > 0.05:
+                label(d, (x2 + 28, base - h2 - 12), '61%', 14, BLUE)
+            label(d, (x2 + 28, base + 14), 'QUIZZED', 9)
+        label(d, (135, 62), '1 WEEK LATER', 11)
+        draw_notch(img, 'point', 232, 318, 3, t)
+    return f
+
+
+def shot_workout(d, img, t, lt, s):
+    """Notch lifting a pixel dumbbell: recall is the workout."""
+    floor(d)
+    up = int(abs(math.sin(lt * 2.4)) * 10)
+    y = 196 - up
+    d.line([86, y, 184, y], fill=LINE_HI, width=3)
+    for x in (86, 96, 174, 184):
+        d.rectangle([x - 3, y - 12, x + 3, y + 12], fill=LINE_HI)
+    draw_notch(img, 'cheer', 135, 318, 5, t)
+
+
+def shot_watching(d, img, t, lt, s):
+    """Notch slumped in front of a screen: re-reading is just watching."""
+    floor(d)
+    rect(d, [70, 92, 200, 182], LINE_HI, 2)
+    d.polygon([(124, 118), (124, 156), (152, 137)], outline=LINE_HI)
+    d.line([135, 182, 135, 200], fill=LINE)
+    d.line([110, 200, 160, 200], fill=LINE)
+    draw_notch(img, 'sad', 135, 318, 4, t)
+
+
+def shot_recall(d, img, t, lt, s):
+    """Closed book, a blue question mark, Notch thinking hard."""
+    floor(d)
+    rect(d, [40, 230, 104, 246], LINE_HI)
+    d.line([40, 238, 104, 238], fill=LINE_DIM)
+    label(d, (150, 110), '?', 56, BLUE)
+    draw_notch(img, 'think', 185, 318, 5, t)
+
+
+def _timeline(d, t, lt, days=20, upto=99, show_gap=False, exam_at=None, title=None):
+    """Days strip from today to exam; review days filled blue (Cramrade-style spacing)."""
+    exam_at = days if exam_at is None else exam_at
+    cell, gap, x0, y0 = 11, 1, 9, 150
+    for i in range(days + 1):
+        x = x0 + i * (cell + gap)
+        rect(d, [x, y0, x + cell - 1, y0 + 22], LINE_DIM)
+    marks = review_days(exam_at)
+    for n, i in enumerate(marks[:upto]):
+        x = x0 + i * (cell + gap)
+        d.rectangle([x + 1, y0 + 1, x + cell - 2, y0 + 21], fill=BLUE)
+    xe = x0 + exam_at * (cell + gap)
+    d.rectangle([xe + 1, y0 + 1, xe + cell - 2, y0 + 21], fill=AMBER)
+    label(d, (x0 + 6, y0 + 36), 'TODAY', 8, LINE_HI, 'lm')
+    label(d, (xe + cell, y0 - 12), 'EXAM', 8, AMBER, 'rm')
+    if show_gap:  # bracket over the first gap
+        a, b = x0 + marks[0] * (cell + gap) + 5, x0 + marks[1] * (cell + gap) + 5
+        d.line([a, y0 - 8, a, y0 - 4, b, y0 - 4, b, y0 - 8], fill=LINE_HI)
+        label(d, ((a + b) // 2, y0 - 18), f'{marks[1] - marks[0]} DAYS', 9)
+    if title:
+        label(d, (135, 96), title, 14)
+
+
+def review_days(exam_at):
+    """Same rule as the app: next gap = ~20% of days left (max 14), daily in the final week."""
+    out, day = [0], 0
+    while True:
+        left = exam_at - day
+        if left <= 1:
+            break
+        step = 1 if left <= 7 else min(14, max(1, round(left * 0.2)))
+        day += step
+        if day >= exam_at:
+            break
+        out.append(day)
+    return out
+
+
+def _tl(upto=99, show_gap=False, title=None, pose='point'):
+    def f(d, img, t, lt, s):
+        n = upto if upto < 99 else min(99, 1 + int(lt / 0.18))
+        _timeline(d, t, lt, upto=n, show_gap=show_gap, title=title)
+        draw_notch(img, pose, 135, 318, 4, t)
+    return f
+
+
+def shot_move_date(d, img, t, lt, s):
+    """The exam date slides earlier and the review days re-space themselves."""
+    k = ease(min(1.0, max(0.0, lt - 0.3) / 0.8))
+    exam_at = round(20 - 4 * k)
+    _timeline(d, t, lt, exam_at=exam_at, title='MOVE THE DATE')
+    draw_notch(img, 'cheer', 135, 318, 4, t)
+
+
+def shot_people(d, img, t, lt, s):
+    """A crowd of tiny figures filling in: 1,350+ people tested."""
+    n = int(min(1.0, lt / 1.2) * 180)
+    for i in range(n):
+        x, y = 22 + (i % 20) * 11, 70 + (i // 20) * 16
+        d.rectangle([x + 2, y, x + 5, y + 3], fill=LINE_HI)
+        d.rectangle([x + 1, y + 5, x + 6, y + 11], fill=LINE)
+    label(d, (135, 228), '1,350+ PEOPLE', 14, BLUE)
+    draw_notch(img, 'point', 135, 318, 3, t)
+
+
+def shot_fifth(d, img, t, lt, s):
+    """Time left as a bar split in five; the first fifth lights up."""
+    x0, y0, w = 25, 140, 220
+    rect(d, [x0, y0, x0 + w, y0 + 26], LINE_HI)
+    for i in range(1, 5):
+        d.line([x0 + i * w // 5, y0, x0 + i * w // 5, y0 + 26], fill=LINE_DIM)
+    if lt > 0.3:
+        d.rectangle([x0 + 2, y0 + 2, x0 + w // 5 - 2, y0 + 24], fill=BLUE)
+    label(d, (x0, y0 - 14), 'TIME LEFT', 9, LINE_HI, 'lm')
+    label(d, (x0 + w // 10, y0 + 44), '1/5', 16, BLUE)
+    label(d, (x0 + w, y0 + 44), '= NEXT GAP', 9, LINE_HI, 'rm')
+    draw_notch(img, 'think', 135, 318, 4, t)
+
+
+def friend(d, x, by, t, nod=False, phase=0.0):
+    """A plain line-art classmate (only Notch gets colour)."""
+    dy = int(abs(math.sin((t + phase) * 5)) * 3) if nod else 0
+    d.ellipse([x - 9, by - 62 + dy, x + 9, by - 44 + dy], outline=LINE_HI)
+    rect(d, [x - 12, by - 40, x + 12, by], LINE)
+
+
+def shot_group_read(d, img, t, lt, s):
+    """One person reads slides aloud, the others nod along."""
+    floor(d)
+    rect(d, [60, 70, 210, 150], LINE_HI, 2)
+    for r in range(4):
+        d.line([74, 88 + r * 15, 196 - (r % 2) * 30, 88 + r * 15], fill=LINE_DIM, width=2)
+    friend(d, 50, 318, t, nod=True)
+    friend(d, 220, 318, t, nod=True, phase=0.4)
+    friend(d, 95, 318, t)
+    draw_notch(img, 'study', 165, 318, 4, t)
+
+
+def shot_group_forget(d, img, t, lt, s):
+    """Their thought bubbles dissolve: nobody remembers."""
+    floor(d)
+    fade = min(1.0, max(0.0, (lt - 0.2) / 0.9))
+    for x in (22, 152):
+        prop_bubble(d, x, 120, t, fade=fade)
+    friend(d, 60, 318, t)
+    friend(d, 215, 318, t)
+    draw_notch(img, 'sad', 135, 318, 4, t)
+
+
+def shot_quiz_each(d, img, t, lt, s):
+    """Classmates firing questions at each other against a ticking clock."""
+    floor(d)
+    prop_clock(d, 135, 80, lt, spin=True)
+    for x, ph in ((50, 0.0), (220, 0.5)):
+        if int((t + ph) * 2) % 2 == 0:
+            label(d, (x, 190), '?', 28, BLUE)
+        friend(d, x, 318, t)
+    draw_notch(img, 'point', 135, 318, 4, t)
+
+
+def shot_misses(d, img, t, lt, s):
+    """Answer list: ticks in green, one miss in red, arrow 'study next'."""
+    rows = [('Q1', True), ('Q2', True), ('Q3', False), ('Q4', True)]
+    for i, (q, ok) in enumerate(rows):
+        if lt < 0.15 + i * 0.2:
+            break
+        y = 80 + i * 34
+        rect(d, [40, y, 230, y + 26], LINE_DIM)
+        label(d, (54, y + 13), q, 10, LINE_HI, 'lm')
+        if ok:
+            d.line([200, y + 13, 206, y + 19, 218, y + 6], fill=GOOD, width=2)
+        else:
+            d.line([202, y + 6, 216, y + 20], fill=(239, 68, 68), width=2)
+            d.line([216, y + 6, 202, y + 20], fill=(239, 68, 68), width=2)
+            if lt > 1.2:
+                label(d, (36, y + 13), '<', 14, BLUE, 'rm')
+    if lt > 1.2:
+        label(d, (135, 236), 'STUDY THIS NEXT', 11, BLUE)
+    draw_notch(img, 'point', 135, 318, 3, t)
+
+
+def shot_screen(d, img, t, lt, s):
+    """Background for an app screenshot shot: Notch small, bottom left, pointing up at it."""
+    floor(d, 320)
+    draw_notch(img, s.get('pose', 'point'), 52, 318, 3, t)
+
+
+SETS.update({'reread': shot_reread, 'familiar': shot_familiar, 'bars_1': _bars(False), 'bars_2': _bars(True),
+             'workout': shot_workout, 'watching': shot_watching, 'recall': shot_recall,
+             'days_20': _tl(1, title='20 DAYS LEFT', pose='think'), 'gap_4': _tl(2, show_gap=True),
+             'gaps_shrink': _tl(), 'move_date': shot_move_date, 'people': shot_people, 'fifth': shot_fifth,
+             'group_read': shot_group_read, 'group_forget': shot_group_forget, 'quiz_each': shot_quiz_each,
+             'misses': shot_misses, 'screen': shot_screen})
+
+
+# ---------------- real app screenshots on top of the pixel frame ----------------
+_screens = {}
+
+
+def draw_screen(im, s, lt):
+    """Paste a real cramrade.app screenshot (engine/assets/screens/<file>) in the safe area, with a pixel frame,
+    a short slide-in, and an optional pulsing highlight box given in screenshot pixels: s['screen']['hl']."""
+    sc = s['screen']
+    path = os.path.join(ENGINE, 'assets', 'screens', sc['file'])
+    if path not in _screens:
+        _screens[path] = Image.open(path).convert('RGB')
+    src = _screens[path]
+    if 'crop' in sc:
+        src = src.crop(sc['crop'])
+    maxw, maxh, top = 960, 820, 250
+    k = min(maxw / src.width, maxh / src.height)
+    k *= sc.get('zoom', 1.0) ** ease(min(1.0, lt / 2.5))
+    w, h = int(src.width * k), int(src.height * k)
+    shot = src.resize((w, h), Image.LANCZOS)
+    a = ease(min(1.0, lt / 0.25))
+    x = (W - w) // 2
+    y = top + int((1 - a) * 60) + max(0, (maxh - h) // 2 - 40)
+    vis = shot
+    if h > maxh + 120:  # keep it out of the caption band
+        vis = shot.crop((0, 0, w, maxh + 120))
+    d = ImageDraw.Draw(im)
+    d.rectangle([x - 14, y - 14, x + vis.width + 13, y + vis.height + 13], fill=(14, 17, 36))
+    d.rectangle([x - 14, y - 14, x + vis.width + 13, y + vis.height + 13], outline=BLUE, width=6)
+    im.paste(vis, (x, y))
+    if 'hl' in sc and lt > 0.5:
+        x0, y0, x1, y1 = sc['hl']
+        on = int((lt - 0.5) * 3) % 2 == 0 or lt > 1.7
+        if on:
+            d.rectangle([x + x0 * k - 10, y + y0 * k - 10, x + x1 * k + 10, y + y1 * k + 10], outline=AMBER if sc.get('amber') else BLUE, width=8)
+
+
 # ---------------- captions ----------------
 _font_cache = {}
 
@@ -329,7 +597,7 @@ def whoosh(sr=44100, dur=0.35, seed=1):
     return x * envl * 0.25
 
 
-def build_audio(voice_path, shots, total, path, sr=44100):
+def build_audio(voice_path, shots, total, path, sr=44100, bed_file=None):
     tmp = path + '.voice.wav'
     subprocess.run([R.FFMPEG, '-y', '-loglevel', 'error', '-i', voice_path, '-ac', '1', '-ar', str(sr), tmp], check=True)
     with wave.open(tmp) as wf:
@@ -338,7 +606,9 @@ def build_audio(voice_path, shots, total, path, sr=44100):
     n = int(total * sr)
     voice = np.zeros(n)
     voice[:min(n, len(v))] = v[:n]
-    bed_file = os.path.join(ENGINE, 'assets', 'music', 'cramrade-bed-base-camp.mp3')
+    # bed: --bed / spec "bed" / $CRAMRADE_BED (e.g. the Minimalist Winter bed, which must NOT be committed
+    # here because of its licence), else our own "Base Camp" bed.
+    bed_file = bed_file or os.environ.get('CRAMRADE_BED') or os.path.join(ENGINE, 'assets', 'music', 'cramrade-bed-base-camp.mp3')
     if os.path.exists(bed_file):  # Cramrade theme "Base Camp" (engine/v2/music.py), looped
         tmpb = path + '.bed.wav'
         subprocess.run([R.FFMPEG, '-y', '-loglevel', 'error', '-stream_loop', '-1', '-i', bed_file, '-t', str(total),
@@ -403,6 +673,8 @@ def frame(spec, words, t):
         glow = np.asarray(small.filter(ImageFilter.GaussianBlur(5)).resize((W, H), Image.BILINEAR)).astype(np.float32) / 255
         arr = np.clip(arr + (glow[:, :, None] * np.array([40, 60, 160]) * 0.9), 0, 255)
     im = Image.fromarray(arr.astype(np.uint8))
+    if s.get('screen'):
+        draw_screen(im, s, lt)
     # caption
     spoken = [w for w in words if not w['text'].startswith('[')]
     cur = [w for w in spoken if w['start'] - 0.04 <= t < (w['end'] + 0.25)]
@@ -433,7 +705,7 @@ def frame(spec, words, t):
     return im
 
 
-def render(spec_path, out, sheet=None):
+def render(spec_path, out, sheet=None, bed=None):
     spec = json.load(open(spec_path))
     base = os.path.dirname(os.path.abspath(spec_path))
     words = json.load(open(os.path.join(base, spec['words'])))
@@ -455,7 +727,7 @@ def render(spec_path, out, sheet=None):
     proc.stdin.close()
     proc.wait()
     wav = out + '.wav'
-    build_audio(os.path.join(base, spec['voice']), spec['shots'], total, wav)
+    build_audio(os.path.join(base, spec['voice']), spec['shots'], total, wav, bed_file=bed)
     subprocess.run([R.FFMPEG, '-y', '-loglevel', 'error', '-i', silent, '-i', wav, '-c:v', 'copy',
                     '-af', 'loudnorm=I=-14:TP=-1.5:LRA=11', '-c:a', 'aac', '-b:a', '192k', '-shortest',
                     '-movflags', '+faststart', out], check=True)
@@ -474,4 +746,5 @@ def render(spec_path, out, sheet=None):
 if __name__ == '__main__':
     a = sys.argv[1:]
     sheet = a[a.index('--sheet') + 1] if '--sheet' in a else None
-    render(a[0], a[1], sheet)
+    bed = a[a.index('--bed') + 1] if '--bed' in a else None
+    render(a[0], a[1], sheet, bed)

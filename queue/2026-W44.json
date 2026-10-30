@@ -1,0 +1,72 @@
+{
+ "week": "2026-W44",
+ "series": "Notch explains (launch)",
+ "items": [
+  {
+   "date": "2026-10-30",
+   "time": "16:30",
+   "kind": "fact",
+   "video": "videos/2026-W44/01-recall.mp4",
+   "script": "samples/launch/01-recall.json",
+   "caption": "Re-reading your notes feels like studying. In a 2006 study by Roediger and Karpicke, students who re-read a passage remembered 40% of it a week later. Students who tested themselves instead remembered 61%.\n\nSo close the notes and quiz yourself. Cramrade writes the questions from your own notes, and each one shows the line it came from.\n\nComment PLAN and I'll send you the link. (Beta, for students 18+)",
+   "hashtags": [
+    "#studytips",
+    "#activerecall",
+    "#examprep",
+    "#studying",
+    "#college"
+   ],
+   "tiktok_title": "Re-reading your notes feels like studying. Here's what works better",
+   "youtube_title": "Why re-reading your notes doesn't stick (40% vs 61%) #Shorts",
+   "sources": [
+    "https://source.washu.edu/2006/03/repeated-testtaking-better-for-retention-than-repeated-studying-research-shows/",
+    "https://www.psychologicalscience.org/observer/test-enhanced-learning"
+   ],
+   "status": "ready",
+   "note": "launch post 1, shared right away on 2026-10-30"
+  },
+  {
+   "date": "2026-10-31",
+   "time": "19:00",
+   "kind": "fact",
+   "video": "videos/2026-W44/02-spacing.mp4",
+   "script": "samples/launch/02-spacing.json",
+   "caption": "Exam in 20 days? Here's how far apart your reviews should be.\n\nCepeda and colleagues (2008) tested more than 1,350 people. The best gap between reviews was a fraction of the time left before the test. Cramrade uses about a fifth. With 20 days to go, you review, then wait 4 days. The gaps shrink as the exam gets close, and the last week is every day.\n\nMove your exam date and the whole plan moves with it. Comment PLAN and I'll send you the link. (Beta, for students 18+)",
+   "hashtags": [
+    "#spacedrepetition",
+    "#studytips",
+    "#examprep",
+    "#studyhacks",
+    "#college"
+   ],
+   "tiktok_title": "Exam in 20 days? Here's exactly when to review",
+   "youtube_title": "Exam in 20 days? When to review (the spacing gap) #Shorts",
+   "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/19076480/",
+    "https://www.evullab.org/pdf/CepedaVulRohrerWixtedPashler-PS-2008.pdf"
+   ],
+   "status": "ready",
+   "note": "launch post 2"
+  },
+  {
+   "date": "2026-11-01",
+   "time": "19:00",
+   "kind": "feature",
+   "video": "videos/2026-W44/03-group.mp4",
+   "script": "samples/launch/03-group.json",
+   "caption": "Study group tonight? Skip reading the slides at each other.\n\nBring questions from your notes and quiz each other out loud, against the clock. The ones you miss become tomorrow's study list.\n\nOn Cramrade, one person hosts, friends join with a code, and the questions come from the whole group's notes. Comment PLAN and I'll send you the link. (Beta, for students 18+)",
+   "hashtags": [
+    "#studygroup",
+    "#studytips",
+    "#examprep",
+    "#activerecall",
+    "#college"
+   ],
+   "tiktok_title": "Your study group, but it actually works",
+   "youtube_title": "Make your study group actually work #Shorts",
+   "sources": [],
+   "status": "ready",
+   "note": "launch post 3"
+  }
+ ]
+}
