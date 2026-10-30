@@ -14,6 +14,8 @@ Public copy for the weekly video run. Source of truth for anyone (human or Claud
 
 **Where:** https://cramrade.app. Works in the browser, nothing to install.
 
+**Access (since 2026-10-30): invite-only.** The homepage button is "Join the waitlist" (email only, "We'll only email you about your invite"). Invited users and existing accounts sign in. So every CTA points to the waitlist: say "join the waitlist" / "get an invite", never "sign up now" or "start a plan today".
+
 **Main competitor named by the team:** NotebookLM. Cramrade is deliberately *not* "chat with your notes". The two things nobody else leads with are the exam-date plan and the group quiz from the group's own notes.
 
 ## 2. What's live right now (safe to show and say)
@@ -156,4 +158,4 @@ The rule is "nothing else is colored", so keep videos to blue + amber + ink/pape
 - Quiz join links and codes, where guests need no account. This is the main free growth loop.
 - Friend invites by link or QR code.
 - Calendar subscribe link.
-- **Missing:** no analytics, waitlist, referral tracking or feedback widget. So we can't yet measure which video brought a signup. Worth adding simple UTM links plus a "how did you hear about us" question.
+- **Waitlist is live** (2026-10-30). Still missing: analytics, referral tracking, feedback widget. So we can't yet measure which video brought a signup. Worth adding simple UTM links plus a "how did you hear about us" question.
