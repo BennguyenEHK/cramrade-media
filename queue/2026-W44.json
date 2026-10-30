@@ -46,8 +46,8 @@
     "https://pubmed.ncbi.nlm.nih.gov/19076480/",
     "https://www.evullab.org/pdf/CepedaVulRohrerWixtedPashler-PS-2008.pdf"
    ],
-   "status": "hold",
-   "note": "launch post 2",
+   "status": "booked",
+   "note": "booked 2026-10-31 19:00 CDT on all 3 channels",
    "music": "engine/assets/music/scores/cramrade-score-02-spacing.mp3"
   },
   {
@@ -67,8 +67,8 @@
    "tiktok_title": "Your study group, but it actually works",
    "youtube_title": "Make your study group actually work #Shorts",
    "sources": [],
-   "status": "hold",
-   "note": "launch post 3",
+   "status": "booked",
+   "note": "booked 2026-11-01 19:00 CST on all 3 channels",
    "music": "engine/assets/music/scores/cramrade-score-03-group.mp3"
   }
  ],
