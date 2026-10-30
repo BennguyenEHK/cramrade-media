@@ -433,7 +433,8 @@ def sc_end(im, d, t, s, t0, ctx):
     text(d, (X0, 792), 'you the link.', B72)
     if t >= 1.0:
         text(d, (X0, 1000), 'cramrade.app', B60, BLUE)
-        text(d, (X0, 1080), s.get('note', 'Beta, for students 18+'), R48, QUIET)
+        if s.get('note'):  # Minh 2026-10-30: no 18+ line in videos
+            text(d, (X0, 1080), s['note'], R48, QUIET)
         notch(d, 'cheer', 720, 1150, 12, t)
 
 

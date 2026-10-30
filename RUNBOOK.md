@@ -88,10 +88,17 @@ For each video, `NN` = 01, 02, … in date order:
 1. Write `scripts/<WEEK>/NN-<slug>.json`. Run `python engine/render.py <script> --check` and fix until clean.
 2. Render: `python engine/render.py <script> videos/<WEEK>/NN-<slug>.mp4 --sheet runs/<WEEK>/NN.png`.
 3. Look at the contact sheet yourself (Read the PNG). Fix anything cramped, cut off or hard to read.
+   Then run `python engine/scan_text.py videos/<WEEK>/NN-<slug>.mp4`: it reads the text in every half second
+   of the video and must end with `0 with forbidden text` (no "18+" / "18 and over" anywhere). Any new
+   screenshot you add under `engine/assets/screens/` must pass the same scan.
 4. Add the item to `queue/<WEEK>.json` (format: `queue/2026-W44.json`):
    - `time` `"19:00"` (Chicago).
    - `caption`: 2 short paragraphs, plain words. First, the idea. Second, how Cramrade fits plus
-     "Beta, for students 18+. Comment PLAN and I'll send you the link."
+     "Cramrade is invite-only right now. Comment PLAN and I'll send you the waitlist link."
+   - **No "18+" anywhere** (Minh, 2026-10-30): not in the caption, the titles, the voiceover, the captions
+     on screen, the end card or any screenshot shown in the video. Cramrade is still for 18+ only, so never
+     aim a video at teens or high school (docs/knowledge.md section 5); just don't print the age line.
+     `engine/queue.py check` rejects "18+", "18 and over" and "students 18".
    - 3–5 hashtags.
    - `tiktok_title` ≤ 90 chars; `youtube_title` ≤ 100 chars ending with `#Shorts`.
    - `sources` for every `fact`.
@@ -108,7 +115,8 @@ Start a **Reviewer** agent that has not seen your reasoning. Give it the paths, 
 > per video, PASS, or FIX with exact changes, or DROP with the reason. FIX or DROP when: a number is not
 > supported by the cited source; any claim breaks section 5 (18+ only, no phone app or alarms, no
 > prices or "free", no "AI study plan", no "nothing leaves your device", no results claims, no
-> first/only claims); a feature is shown that is not live; text is cut off or unreadable on a phone;
+> first/only claims); any "18+" / "18 and over" text is visible or spoken anywhere in the video or written in
+> the caption (Minh's rule, 2026-10-30); a feature is shown that is not live; text is cut off or unreadable on a phone;
 > the caption and the video disagree; the tone is hype or guilt. Write your verdicts to
 > `runs/<WEEK>/review.md`.
 

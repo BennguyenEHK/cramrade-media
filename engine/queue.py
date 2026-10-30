@@ -20,7 +20,8 @@ KINDS = {'fact', 'quiz', 'tips', 'feature', 'build', 'trend'}
 REQUIRED = ('date', 'time', 'video', 'kind', 'caption', 'hashtags', 'tiktok_title', 'youtube_title')
 BANNED = (r'\bfree\b', r'\bteens?\b', r'high ?school', r'app store', r'play store', r'download the app',
           r'ai study plan', r'guarantee', r'nothing leaves your device', r'\bthe first\b', r'\bthe only\b',
-          r'\$\d', r'improve (your )?grades by')
+          r'\$\d', r'improve (your )?grades by',
+          r'18\s*\+', r'\b18 and over\b', r'students 18', r'sign up now')
 
 
 def problems(q):

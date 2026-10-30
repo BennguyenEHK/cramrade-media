@@ -61,7 +61,7 @@
   },
   "home-hero": {
     "file": "home/hero.png",
-    "shows": "Home hero: \"Your notes, planned backwards from exam day.\", Start a plan button, 3D study calendar ending on an amber Exam day block, sample Biology question card.",
+    "shows": "Home hero (waitlist version, 2026-10-30): \"Your notes, planned backwards from exam day.\", Join the waitlist form (invite-only), 3D study calendar ending on an amber Exam day block, sample Biology question card. Cropped above the age line.",
     "source_url": "https://cramrade.app/ (public home page, captured 2026-10-30)"
   },
   "home-plan-calendar": {
@@ -96,7 +96,7 @@
   },
   "home-cta": {
     "file": "home/cta.png",
-    "shows": "\"Got an exam coming up?\" closing call to action with Start a plan.",
+    "shows": "\"Got an exam coming up?\" closing section with the Join the waitlist form (invite-only).",
     "source_url": "https://cramrade.app/ (public home page, captured 2026-10-30)"
   }
 }
