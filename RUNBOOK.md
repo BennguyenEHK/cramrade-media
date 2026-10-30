@@ -83,8 +83,8 @@ For each video, `NN` = 01, 02, … in date order; files go in `samples/<WEEK>/` 
 `videos/<WEEK>/`:
 
 1. **Voice + word timings:** `python engine/v2/voice.py "$(cat scripts/<WEEK>/NN-<slug>.txt)" samples/<WEEK>/NN-<slug>`.
-   It uses ElevenLabs (the real Notch voice) when `ELEVENLABS_API_KEY` is set and api.elevenlabs.io is
-   reachable, otherwise the Kokoro fallback voice. If it prints `FALLBACK`, say so in the review email and
+   It uses ElevenLabs (the real Notch voice) through the environment's network secret for api.elevenlabs.io
+   (or an `ELEVENLABS_API_KEY` variable), otherwise the Kokoro fallback voice. If it prints `FALLBACK`, say so in the review email and
    the final message. Run it once per video (ElevenLabs charges per call; never loop on errors).
 2. **Shots JSON** `samples/<WEEK>/NN-<slug>.json`, the format of `samples/launch/01-recall.json`:
    `voice`, `words`, `end_t` = last word end + 0.8 s, `emphasis` (4-10 key words, "blue"; "exam" "amber"),

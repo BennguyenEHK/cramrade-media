@@ -2,8 +2,9 @@
 
     python engine/v2/voice.py "SCRIPT TEXT" OUT_PREFIX            -> OUT_PREFIX-voice.mp3, OUT_PREFIX-words.json
 
-1. ElevenLabs (the real Notch voice), when the environment variable ELEVENLABS_API_KEY is set and
-   api.elevenlabs.io is reachable: POST /v1/text-to-speech/{voice}/with-timestamps returns the audio and a
+1. ElevenLabs (the real Notch voice). The key comes from a network secret on the cloud environment
+   (host api.elevenlabs.io, header xi-api-key): the agent proxy adds it to the request, so the key never
+   enters the session. An ELEVENLABS_API_KEY environment variable also works if one is set. POST /v1/text-to-speech/{voice}/with-timestamps returns the audio and a
    per-character alignment, which is turned into per-word timings. Voice "Notch" WWN2ZT8HeZwUNFy2bh9r.
    Model: eleven_v4, then eleven_v3, then eleven_multilingual_v2 if a model is refused. One take per call
    (every call costs credits: never loop on errors).
@@ -54,19 +55,24 @@ def words_from_alignment(al):
 
 def elevenlabs(text, prefix):
     key = os.environ.get('ELEVENLABS_API_KEY')
-    if not key:
-        return 'no ELEVENLABS_API_KEY in the environment'
+    headers = {'Content-Type': 'application/json'}
+    if key:
+        headers['xi-api-key'] = key  # otherwise the network secret is attached by the proxy
     last = ''
     for model in MODELS:
         body = json.dumps({'text': text, 'model_id': model}).encode()
         req = urllib.request.Request(
             f'https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}/with-timestamps?output_format=mp3_44100_128',
-            data=body, headers={'xi-api-key': key, 'Content-Type': 'application/json'})
+            data=body, headers=headers)
         try:
             with urllib.request.urlopen(req, timeout=120) as r:
                 data = json.load(r)
         except urllib.error.HTTPError as e:
             last = f'{model}: HTTP {e.code} {e.read()[:300]!r}'
+            if e.code == 401:
+                return last + ' (no ElevenLabs key: add the network secret for api.elevenlabs.io)'
+            if e.code == 403 and 'host_not_allowed' in (e.headers.get('x-deny-reason') or ''):
+                return last + ' (api.elevenlabs.io is blocked: add the network secret for it)'
             if e.code in (400, 422) and b'model' in last.encode().lower():
                 continue  # model not available on this account: try the next one
             return last
