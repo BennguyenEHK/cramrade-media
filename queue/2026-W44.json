@@ -22,7 +22,7 @@
     "https://source.washu.edu/2006/03/repeated-testtaking-better-for-retention-than-repeated-studying-research-shows/",
     "https://www.psychologicalscience.org/observer/test-enhanced-learning"
    ],
-   "status": "booked",
+   "status": "hold",
    "note": "launch post 1: first posted 2026-10-30 16:27 with Minimalist Winter; reposted with its own score the same day",
    "music": "engine/assets/music/scores/cramrade-score-01-recall.mp3"
   },
@@ -46,7 +46,7 @@
     "https://pubmed.ncbi.nlm.nih.gov/19076480/",
     "https://www.evullab.org/pdf/CepedaVulRohrerWixtedPashler-PS-2008.pdf"
    ],
-   "status": "booked",
+   "status": "hold",
    "note": "launch post 2",
    "music": "engine/assets/music/scores/cramrade-score-02-spacing.mp3"
   },
@@ -67,9 +67,10 @@
    "tiktok_title": "Your study group, but it actually works",
    "youtube_title": "Make your study group actually work #Shorts",
    "sources": [],
-   "status": "booked",
+   "status": "hold",
    "note": "launch post 3",
    "music": "engine/assets/music/scores/cramrade-score-03-group.mp3"
   }
- ]
+ ],
+ "note": "2026-10-30 17:00: Minh asked to take everything down. Buffer posts for 2 and 3 removed; YouTube set Private, TikTok set Only me; Instagram reels left for Minh to archive in the app (no archive on web)."
 }
