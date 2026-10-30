@@ -700,8 +700,9 @@ def frame(spec, words, t):
         d2.text((px, y), word, font=f1, fill=(6, 8, 18) if a >= 1.0 else TEXT)
         sub = 'cramrade.app'
         d2.text(((W - f2.getlength(sub)) / 2, 1360), sub, font=f2, fill=BLUE)
-        note = 'Beta, for students 18+'
-        d2.text(((W - f3.getlength(note)) / 2, 1440), note, font=f3, fill=(163, 171, 209))
+        note = spec.get('end_note', '')  # Minh 2026-10-30: no "Beta, for students 18+" line on the end card
+        if note:
+            d2.text(((W - f3.getlength(note)) / 2, 1440), note, font=f3, fill=(163, 171, 209))
     return im
 
 
