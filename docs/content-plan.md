@@ -13,15 +13,42 @@ Why: the faceless study shorts that win have a voice, word-by-word captions, a c
 in the first 2 s and a comment trigger. A precise number with a named study is saveable and builds trust
 for an AI study app.
 
-## Video formula (25-32 s, 60-85 spoken words)
+## Video formula (22-30 s, 55-75 spoken words) -- updated 2026-10-30 with Minh's short-form tips
 
 | beat | time | what |
 |---|---|---|
-| Hook | 0-3 s | a relatable moment or a number: "You read your notes four times...", "Exam in 20 days?", "Study group tonight?" |
-| Mechanism | 3-16 s | the study + the exact number, drawn as a pixel scene (bars, timeline, crowd, calendar) |
-| What to do | 16-24 s | the technique in one plain sentence |
-| Cramrade | 24-29 s | the feature, on a real screenshot with a blinking highlight box on the exact part |
-| CTA | last 3 s | Notch: "Comment PLAN, and I'll send you the link." End card: "Comment PLAN" + cramrade.app |
+| Hook | 0-3 s | a relatable moment **plus an open loop** (a bold claim or a curiosity gap) said by 3 s: "You read your notes four times. That feeling is lying to you." / "Exam in 20 days? Most people review on the wrong days." No intro, no logo: Notch is on screen at frame 1 and the voice starts at 0.0 s. |
+| Mechanism | 3-14 s | the study + the exact number, drawn as a pixel scene (bars, timeline, crowd, calendar); a cut every 1.5-3 s |
+| What to do | 14-21 s | the technique in one plain sentence |
+| Cramrade | 21-26 s | the feature, on a real screenshot with a blinking highlight box on the exact part |
+| Loop + CTA | last 3-4 s | one short line that calls back the hook ("So don't read it a fifth time."), then "Comment PLAN, and I'll send you the link." End card under 1 s so the replay starts fast. |
+
+### Packaging (every video)
+
+- **Cover frame / on-screen hook**: the shots JSON has a `hook` block: `"hook": {"text": "READ IT 4 TIMES?\nIT'S LYING TO YOU", "amber": ["LYING"], "mark": [x, y, r], "until": 2.6}`.
+  The engine draws the hook text near the top (below the apps' top bar) for the first 2.6 s and an amber ring
+  (or `[x, y, r, "arrow"]`) on the key thing in the first scene. Frame 1 is what TikTok/Instagram/YouTube show
+  as the thumbnail, so it must read on its own: at most 2 lines, about 4 words a line, one amber word, the ring on
+  the thing the hook is about. Amber, never red (brand: only blue and amber).
+- **Keyword**: pick one search keyword per video (e.g. "active recall", "spaced repetition", "study group").
+  Use it once in the TikTok and YouTube titles, twice in the caption, and as one of the hashtags.
+- **Captions** stay word-by-word (many watch on mute); art stays in the top two-thirds, captions above the bottom 420 px.
+- **Trends**: use trending *topics and angles* (exam season, a study trend the Scout finds). Never trending audio:
+  it is copyrighted and cannot go through Buffer; every video keeps its own original score.
+
+## Posting schedule ("golden hours", Chicago time) -- set 2026-10-30
+
+- **5 videos a week: Sun, Mon, Tue, Thu, Fri** (Wednesday is TikTok's weakest day). Consistency for 6-8 weeks
+  matters more than any single slot.
+- Per platform, in each queue item's `times`: **TikTok 20:00, Instagram 18:00, YouTube 17:00** (`time` stays "19:00"
+  as the fallback). Basis: Buffer 2026 data (TikTok strongest 6-11 pm, Instagram peaks ~6 pm, Shorts strong Fri 4 pm
+  and weekday evenings 6-11 pm), adapted for students.
+- **Season**: mid-Nov to mid-Dec (finals) TikTok 21:00 and lean on exam-week content; Thanksgiving week (and the
+  week of Dec 25) 3 videos (Sun, Tue, Thu); winter break (mid-Dec to mid-Jan) 3 a week; back to 5 when spring
+  semester starts.
+- **Self-tuning**: every week one video tests one changed slot on one platform (e.g. TikTok 21:00 instead of 20:00),
+  noted in the queue item as `"slot_test": "tiktok 21:00 vs 20:00"`. The weekly run compares views in
+  `docs/learnings.md`; after 4 weeks of data it moves the default to the winner and writes why.
 
 ## Pillars (rotate; one technique per video)
 

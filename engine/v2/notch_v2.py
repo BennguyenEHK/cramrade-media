@@ -512,6 +512,44 @@ def draw_screen(im, s, lt):
 _font_cache = {}
 
 
+def draw_mark(d, mark, t):
+    """Amber pixel ring (or arrow) on the canvas: the high-contrast 'look here' for the cover frame.
+    mark = [x, y, r] for a ring, or [x, y, r, "arrow"] for an arrow pointing down at (x, y)."""
+    x, y, r = mark[0], mark[1], mark[2]
+    if len(mark) > 3 and mark[3] == 'arrow':
+        bob = int(2 * math.sin(t * 8))
+        d.line([x, y - r - 14 + bob, x, y - 4 + bob], fill=AMBER, width=2)
+        d.polygon([(x - 5, y - 9 + bob), (x + 5, y - 9 + bob), (x, y - 2 + bob)], fill=AMBER)
+        return
+    rr = r + (1 if int(t * 6) % 2 else 0)
+    d.ellipse([x - rr, y - rr, x + rr, y + rr], outline=AMBER, width=2)
+
+
+def draw_hook(im, hook, t):
+    """On-screen hook text for the first seconds (also the cover/thumbnail frame).
+    Placed below the platforms' top bar (y 250+) and far above the captions (y 1410).
+    Words listed in hook['amber'] are drawn amber, the rest white, black outline, dark band behind."""
+    lines = hook['text'].split('\n')[:3]
+    amber = {w.lower() for w in hook.get('amber', [])}
+    size = 84
+    f = cap_font(size)
+    while max(f.getlength(l) for l in lines) > W - 140 and size > 52:
+        size -= 4
+        f = cap_font(size)
+    lh = int(size * 1.12)
+    top = 250
+    band = Image.new('RGBA', (W, len(lines) * lh + 60), (0, 0, 0, 150))
+    im.paste(band, (0, top - 30), band)
+    d = ImageDraw.Draw(im)
+    for i, line in enumerate(lines):
+        x = (W - f.getlength(line)) / 2
+        y = top + i * lh
+        for wd in line.split(' '):
+            col = AMBER if wd.strip('.,?!:').lower() in amber else TEXT
+            d.text((x, y), wd, font=f, fill=col, stroke_width=9, stroke_fill=(0, 0, 0))
+            x += f.getlength(wd + ' ')
+
+
 def cap_font(size):
     if size not in _font_cache:
         _font_cache[size] = ImageFont.truetype(os.path.join(ENGINE, 'assets', 'fonts', 'Monocraft-Bold.ttf'), size)
@@ -653,6 +691,9 @@ def frame(spec, words, t):
     canvas = Image.new('RGB', (PW, PH), BG)
     d = ImageDraw.Draw(canvas)
     SETS[s['set']](d, canvas, t, lt, s)
+    hook = spec.get('hook') or {}
+    if hook.get('mark') and t < hook.get('until', 2.6):
+        draw_mark(d, hook['mark'], t)
     # camera: zoom z0->z1 around centre c, nearest-neighbour so pixels stay square
     z0, z1 = s.get('cam', {}).get('z', [1.0, 1.0])
     cx, cy = s.get('cam', {}).get('c', [PW / 2, PH / 2])
@@ -675,6 +716,8 @@ def frame(spec, words, t):
     im = Image.fromarray(arr.astype(np.uint8))
     if s.get('screen'):
         draw_screen(im, s, lt)
+    if hook.get('text') and t < hook.get('until', 2.6):
+        draw_hook(im, hook, t)
     # caption
     spoken = [w for w in words if not w['text'].startswith('[')]
     cur = [w for w in spoken if w['start'] - 0.04 <= t < (w['end'] + 0.25)]

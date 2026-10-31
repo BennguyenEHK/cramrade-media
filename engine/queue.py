@@ -5,6 +5,10 @@
                                                        status 'ready' (approved) and 'review' (needs Minh's OK)
 
 A queue file lists one item per video. The daily publish run reads it and books the posts in Buffer.
+
+Posting time: `time` ("HH:MM", Chicago) is the default for every channel; an optional
+`times` {"tiktok": "20:00", "instagram": "18:00", "youtube": "17:00"} overrides it per channel.
+`today` prints `due_at` (default) and `due_at_by_channel` (one ISO time per channel).
 """
 import datetime as dt
 import glob
@@ -17,6 +21,7 @@ from zoneinfo import ZoneInfo
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TZ = ZoneInfo('America/Chicago')
 RAW = 'https://raw.githubusercontent.com/BennguyenEHK/cramrade-media/main/'
+CHANNELS = ('tiktok', 'instagram', 'youtube')
 KINDS = {'fact', 'quiz', 'tips', 'feature', 'build', 'trend'}
 REQUIRED = ('date', 'time', 'video', 'kind', 'caption', 'hashtags', 'tiktok_title', 'youtube_title')
 BANNED = (r'\bfree\b', r'\bteens?\b', r'high ?school', r'app store', r'play store', r'download the app',
@@ -33,6 +38,9 @@ def problems(q):
         for k in REQUIRED:
             if not it.get(k):
                 out.append(f'{w}: missing {k}')
+        for ch, hm in (it.get('times') or {}).items():
+            if ch not in CHANNELS or not re.fullmatch(r'([01]\d|2[0-3]):[0-5]\d', str(hm)):
+                out.append(f'{w}: times must map tiktok/instagram/youtube to "HH:MM"')
         if it.get('status', 'ready') not in ('ready', 'review', 'hold', 'booked', 'archived'):
             out.append(f'{w}: status must be ready, review, hold, booked or archived')
         if it.get('kind') not in KINDS:
@@ -73,9 +81,11 @@ def due(day):
         for it in q.get('items', []):
             # 'review' = waiting for Minh's OK by email (PUBLISH.md step 2); 'ready' = already approved
             if it.get('date') == day and it.get('status', 'ready') in ('ready', 'review'):
+                at = lambda hm: dt.datetime.fromisoformat(f'{day}T{hm}').replace(tzinfo=TZ).isoformat()
+                times = it.get('times') or {}
                 it = dict(it, queue_file=os.path.relpath(path, ROOT), video_url=RAW + it['video'],
-                          text=post_text(it),
-                          due_at=dt.datetime.fromisoformat(f'{day}T{it["time"]}').replace(tzinfo=TZ).isoformat())
+                          text=post_text(it), due_at=at(it['time']),
+                          due_at_by_channel={ch: at(times.get(ch, it['time'])) for ch in CHANNELS})
                 items.append(it)
     return items
 
